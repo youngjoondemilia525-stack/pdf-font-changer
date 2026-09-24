@@ -80,32 +80,47 @@ uploaded_files = st.file_uploader("📥 请选择要替换字体的 PDF 文件�
 
 if uploaded_files:
     st.write(f"📁 已准备就绪 {len(uploaded_files)} 个文件。")
-
-    if st.button("🚀 开始批量替换", type="primary"):
-        with st.spinner('正在火速批量处理中，请稍候...'):
+    
+    if st.button("🚀 开始转换", type="primary"):
+        with st.spinner('正在火速处理中，请稍候...'):
             try:
-                # 在内存中创建 ZIP
-                zip_buffer = io.BytesIO()
-
-                with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
-                    for file in uploaded_files:
-                        input_bytes = file.read()
-
-                        # 执行字体替换
-                        output_bytes = replace_font_stream(input_bytes, target_font_code)
-
-                        # 写入 ZIP 包
-                        new_filename = f"新字体_{file.name}"
-                        zip_file.writestr(new_filename, output_bytes)
-
-                st.success(f"✅ 成功替换并打包了 {len(uploaded_files)} 个文件！")
-
-                # 下载按钮
-                st.download_button(
-                    label=f"📦 ⬇️ 一键下载全部转换结果 (ZIP)",
-                    data=zip_buffer.getvalue(),
-                    file_name="防混淆字体标签_批量打包.zip",
-                    mime="application/zip"
-                )
+                # 判断：如果是单文件，直接输出 PDF
+                if len(uploaded_files) == 1:
+                    file = uploaded_files[0]
+                    input_bytes = file.read()
+                    
+                    # 执行替换
+                    output_bytes = replace_font_stream(input_bytes, target_font_code)
+                    
+                    st.success(f"✅ 成功替换文件：{file.name}")
+                    
+                    # 提供单文件 PDF 下载
+                    st.download_button(
+                        label=f"⬇️ 下载转换后的 PDF",
+                        data=output_bytes,
+                        file_name=f"新字体_{file.name}",
+                        mime="application/pdf"
+                    )
+                
+                # 判断：如果是多文件，走 ZIP 打包流程
+                else:
+                    zip_buffer = io.BytesIO()
+                    with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
+                        for file in uploaded_files:
+                            input_bytes = file.read()
+                            output_bytes = replace_font_stream(input_bytes, target_font_code)
+                            new_filename = f"新字体_{file.name}"
+                            zip_file.writestr(new_filename, output_bytes)
+                    
+                    st.success(f"✅ 成功替换并打包了 {len(uploaded_files)} 个文件！")
+                    
+                    # 提供 ZIP 下载
+                    st.download_button(
+                        label=f"📦 ⬇️ 一键下载全部结果 (ZIP)",
+                        data=zip_buffer.getvalue(),
+                        file_name="防混淆字体标签_批量打包.zip",
+                        mime="application/zip"
+                    )
+                    
             except Exception as e:
                 st.error(f"处理失败，错误信息: {str(e)}")
