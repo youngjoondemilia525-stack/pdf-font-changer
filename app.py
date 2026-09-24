@@ -59,10 +59,14 @@ st.title("🔤 PDF 防混淆字体批量替换器")
 st.write("专门解决热敏打印机标签数字/字母易混淆（如 I/J, 0/O）的问题。支持一次拖入多个文件，批量转换。")
 
 # 字体映射字典，使用 PDF 核心内置字体，确保云端无需配置即可运行
+# 字体映射字典，使用 PDF 核心内置字体，确保云端无需配置即可运行
 FONT_MAP = {
-    "Courier (推荐：打字机等宽字体，防混淆极佳)": "cour",
+    "Courier (常规等宽，防混淆)": "cour",
+    "Courier-Bold (加粗等宽，更醒目)": "coub",
     "Helvetica (常规黑体，无衬线)": "helv",
-    "Times-Roman (常规宋体，有衬线)": "tiro"
+    "Helvetica-Bold (加粗黑体)": "helb",
+    "Times-Roman (常规宋体，有衬线)": "tiro",
+    "Times-Bold (加粗宋体)": "titb"
 }
 
 # 字体选择器
