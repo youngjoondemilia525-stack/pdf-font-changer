@@ -60,13 +60,14 @@ st.write("专门解决热敏打印机标签数字/字母易混淆（如 I/J, 0/O
 
 # 字体映射字典，使用 PDF 核心内置字体，确保云端无需配置即可运行
 # 字体映射字典，使用 PDF 核心内置字体，确保云端无需配置即可运行
+# 字体映射字典，使用 PDF 核心内置字体，确保云端无需配置即可运行
 FONT_MAP = {
     "Courier (常规等宽，防混淆)": "cour",
-    "Courier-Bold (加粗等宽，更醒目)": "coub",
+    "Courier-Bold (加粗等宽，更醒目)": "cobo",
     "Helvetica (常规黑体，无衬线)": "helv",
-    "Helvetica-Bold (加粗黑体)": "helb",
+    "Helvetica-Bold (加粗黑体)": "hebo",
     "Times-Roman (常规宋体，有衬线)": "tiro",
-    "Times-Bold (加粗宋体)": "titb"
+    "Times-Bold (加粗宋体)": "tibo"
 }
 
 # 字体选择器
